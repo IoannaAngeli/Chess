@@ -6,10 +6,9 @@ public class Location {
 	private int column;
 	private Piece piece;
 	/**
-	 * Μέθοδος δημιουργίας, δέχεται τον αριθμό γραμμής και στήλης της θέσης. Θα σας
-	 * εξυπηρετήσει να αποθηκεύσετε τους αριθμούς γραμμής και στήλης ως ακέραιες
-	 * τιμές 0–7. Για τη μέθοδο αυτή υποθέστε ότι οι δύο παράμετροι έχουν έγκυρες
-	 * τιμές.
+	 * Constructor, accepts the row and column number of the position. 
+	 * It saves the row and column numbers as integers 0–7. 
+	 * For this method, we assume that both parameters have valid values.
 	 */
 	public Location(int r, int c) {
 		row = r;
@@ -44,16 +43,21 @@ public class Location {
 		column = columnChar - 'a';
 		
 	}
+	
+
 
 	/**
-	 * Επιστρέφουν τη γραμμή και τη στήλη της θέσης, στο εύρος 0–7.
+	 * Returns the row of the board as 0-7
 	 * @return
 	 */
 	int getRow() {
 		return row;
-
 	}
 
+	/**
+	 * Returns the column of the board as 0-7
+	 * @return
+	 */
 	int getCol() {
 		return column;
 	}
@@ -65,10 +69,56 @@ public class Location {
 
 	public void setPiece(Piece piece) {
 		this.piece = piece;
+		if(piece!= null)
+		{
+			piece.setLocation(this);
+		}
+	}
+	
+	
+	/**
+	 * returns true if the beginning location is vertical to 'to' location
+	 * @param to
+	 * @return
+	 */
+	public boolean isVerticalTo(Location to)
+	{
+		return this.column == to.column;
+	}
+	
+	/**
+	 * returns true if the beginning location is horizontal to 'to' location
+	 * @param to
+	 * @return
+	 */
+	public boolean isHorizontalTo(Location to)
+	{
+		return this.row == to.row;
+	}
+	
+	/**
+	 * returns true if the beginning location is diagonal to 'to' location
+	 * @param to
+	 * @return
+	 */
+	public boolean isDiagonalTo(Location to)
+	{
+		return (this.row + this.column) == (to.row + to.column);
+	}
+	
+	
+	/**
+	 * returns true if the beginning location is anti-diagonal to 'to' location
+	 * @param to
+	 * @return
+	 */
+	public boolean isAntiDiagonalTo(Location to)
+	{	
+		return (this.row-to.row) == this.column - to.column;
 	}
 
 	/**
-	 * Επιστρέφει τον συμβολισμό κειμένου της θέσης, π.χ. «e2».
+	 * Returns the location as a letter and a number eg. «e2»
 	 */
 	@Override
 	public String toString() {

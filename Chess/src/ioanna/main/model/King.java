@@ -1,38 +1,58 @@
 package ioanna.main.model;
 
+import ioanna.main.model.exceptions.InvalidMoveException;
 import ioanna.main.model.utils.Color;
 
 public class King extends Piece{
 
-	
-	public King(Color color, Location location) {
-		super(color, location,"K");
+
+
+	public King(Color color, Location location, Board board) {
+		super(color, location,"K", board);
 	}
 	
 	
 	@Override
-	void moveToLocation(Location newLocation) {
-		// TODO Auto-generated method stub
+	public void moveToLocation(Location newLocation) throws InvalidMoveException {
+		if(isValidMove(newLocation))
+		{
+			board.movePiece(location, newLocation);
+		}
+		else
+		{
+			
+		}
 		
 	}
 	
-//	Αφηρημένη κλάση που αντιπροσωπεύει ένα κομμάτι του παιχνιδιού. Κάθε κομμάτι χαρακτηρίζεται
-//	από το χρώμα και τη θέση του, και επίσης περιέχει μία αναφορά προς τη σκακιέρα στην οποία ανήκει
-//	(κλάση Board, βλ. παρακάτω). Κατά τη δημιουργία ενός κομματιού δίνονται τα τρία αυτά στοιχεία του.
-//	Το χρώμα 
-//	και η σκακιέρα του κομματιού δεν μπορούν να αλλάξουν, 
-//	ενώ η θέση του (προφανώς) μπορεί
-//	να αλλάξει.
-//	Με βάση τα παραπάνω διαμορφώστε μεθόδους δημιουργίας και πρόσβασης στα πεδία της κλάσης
-//	(μόνο όσες χρειάζονται).
-//	Επίσης η κλάση δηλώνει την ακόλουθη αφηρημένη μέθοδο:
-//	void moveTo(Location newLoc)
-//	Υλοποιεί την κίνηση του κομματιού σε μία νέα θέση. Εφόσον η κίνηση είναι έγκυρη την πραγ-
-//	ματοποιεί, αλλάζοντας τη θέση του κομματιού στη σκακιέρα, απομακρύνοντας αντίπαλο κομμάτι
-//	που τυχόν υπάρχει στην τελική θέση, κ.λπ. Σε διαφορετική περίπτωση προκαλεί μία εξαίρεση του
-//	τύπου InvalidMoveException (βλ. παρακάτω) με κατάλληλα χαρακτηριστικά.
 
-	
+// checks of this piece can make this move
+	@Override
+	public boolean isValidMove( Location locTo) {
+		
+		if (locTo.getCol() == location.getCol() && (locTo.getRow() == 1+ location.getRow()))
+			{
+			return true;
+			}
+		else if (locTo.getCol() == location.getCol() && locTo.getRow() == location.getRow()-1)
+		{
+		return true;
+		}
+		else if (locTo.getRow() == location.getRow() && (locTo.getCol() == 1+ location.getCol()||locTo.getCol() == location.getCol() -1))
+			{
+			return true;
+			}
+		else
+		{
+			return false;
+		}
+	}
+
+
+	public String toStringType() {
+		return "King ";
+	}
+
 	
 	
 }
