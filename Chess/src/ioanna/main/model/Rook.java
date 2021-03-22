@@ -14,7 +14,7 @@ public class Rook extends Piece {
 		if (isValidMove(newLocation)) {
 			board.movePiece(location, newLocation);
 		} else {
-			throw new InvalidMoveException(InvalidMoveException.LA8OS_KINISI);
+			throw new InvalidMoveException(InvalidMoveException.ROOK);
 		}
 	}
 
@@ -29,7 +29,6 @@ public class Rook extends Piece {
 			return false;
 		}
 	}
-	
 
 	public String toStringType() {
 		return "Rook ";

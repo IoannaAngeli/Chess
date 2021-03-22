@@ -16,8 +16,6 @@ public class Knight extends Piece{
 		} else {
 			throw new InvalidMoveException(InvalidMoveException.KNIGHT);
 		}
-
-		
 	}
 
 	@Override
