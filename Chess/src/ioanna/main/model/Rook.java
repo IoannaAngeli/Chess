@@ -30,6 +30,7 @@ public class Rook extends Piece {
 		}
 	}
 
+	@Override
 	public String toStringType() {
 		return "Rook ";
 	}

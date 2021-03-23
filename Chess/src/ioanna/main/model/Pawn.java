@@ -42,7 +42,8 @@ public class Pawn extends Piece {
 	 */
 	private boolean isValidWhenCapturing(Location locTo) throws InvalidMoveException {
 
-		if ((location.getCol() - locTo.getCol() == 1) && (location.getRow() - locTo.getRow() == 1)) {
+		if (((location.getCol() - locTo.getCol() == 1) || (location.getCol() - locTo.getCol() == -1))
+				&& (location.getRow() - locTo.getRow() == 1)) {
 			return true;
 		} else {
 			throw new InvalidMoveException(InvalidMoveException.PAWN_CAPTURE_ONLY_DIAGONALLY);
@@ -55,16 +56,19 @@ public class Pawn extends Piece {
 	 * @throws InvalidMoveException
 	 */
 	private boolean isValidWhenNotCapturing(Location locTo) throws InvalidMoveException {
-		if (location.getCol() == locTo.getCol())
+		if (location.getCol() == locTo.getCol()) {
 			if ((location.getRow() - locTo.getRow() == 1) || location.getRow() - locTo.getRow() == -1) {
 				return true;
 			}
-		if (((location.getRow() - locTo.getRow() == 2) || (location.getRow() - locTo.getRow() == -2))
-				&& isTheFirstMove() && board.freeVerticalPath(location, locTo)) {
-			return true;
-		} else {
-			return false;
+
+			else if (((location.getRow() - locTo.getRow() == 2) || (location.getRow() - locTo.getRow() == -2))
+					&& isTheFirstMove() && board.freeVerticalPath(location, locTo)) {
+				return true;
+			}
 		}
+
+		return false;
+
 	}
 
 	/**
@@ -105,6 +109,7 @@ public class Pawn extends Piece {
 		}
 	}
 
+	@Override
 	public String toStringType() {
 		return "Pawn ";
 	}

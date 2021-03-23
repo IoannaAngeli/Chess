@@ -5,9 +5,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.File; // Import the File class
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.FileWriter; // Import the FileWriter class
 import java.io.IOException; // Import the IOException class to handle errors
+
 import ioanna.main.model.exceptions.InvalidMoveException;
 import ioanna.main.model.utils.Color;
 
@@ -30,7 +31,7 @@ public class Game {
 
 	public void play() {
 
-		System.out.println("Hello! \nThis is the board of your chess game:\n");
+		System.out.println("\nThis is the board of your chess game:\n");
 		board.printTheBoard();
 		printHelp();
 
@@ -41,9 +42,9 @@ public class Game {
 			}
 
 			if (turn == 0) {
-				System.out.print("White plays. Please insert your move: ");
+				System.out.print("\nWhite plays. Please insert your move: ");
 			} else {
-				System.out.print("Black plays. Please insert your move: ");
+				System.out.print("\nBlack plays. Please insert your move: ");
 			}
 
 			String round = sc.nextLine();
@@ -73,19 +74,20 @@ public class Game {
 		boolean movementMatchFound = movementMatcher.find();
 
 		if (commandMatchFound) {
-			System.out.println("\n=====Command found");
-			handleCommand(moveString);
+			System.out.println("\n             =========================");
+				handleCommand(moveString);
 		} else if (movementMatchFound && moveString.length() == 4) {
-			System.out.println("\n=====>");
+			System.out.println("=====>");
 			handleMove(moveString);
 		} else {
-			System.out.println("\n!!! This is not a valid input. Please choose a piece to move or choose one of the available commands:\n");
-			printHelp();
+			System.out.println("\n!!! This is not a valid input. Please type a move or choose one of the available commands.\n"
+					+ "(You can type':h' for the help Menu.)\n");
+			
 		}
 
 	}
 
-	public void handleCommand(String moveString) {
+	public void handleCommand(String moveString){
 		switch (moveString) {
 		case ":h":
 			printHelp();
@@ -102,8 +104,8 @@ public class Game {
 			}
 			break;
 		default:
-//				  throw new CommandSyntaxError("Λανθασμένη εντολή "+moveString);
 			break;
+			
 		}
 	}
 
@@ -168,12 +170,12 @@ public class Game {
 		System.out.print("Please enter the name of this game: ");
 		String gameName = sc.nextLine();
 		gameName = gameName.trim();
-		System.out.println(validMoves.toString());
+		//System.out.println(validMoves.toString());
 		File myObj = null;
 		try {
 			myObj = new File("C:\\Users\\Ioanna\\Desktop\\Chess\\" + gameName + ".txt");
 			if (myObj.createNewFile()) {
-				System.out.println("File created: " + myObj.getName());
+				//System.out.println("File created: " + myObj.getName());
 			} else {
 				System.out.println("A game with this name already exists.");
 			}
@@ -204,28 +206,31 @@ public class Game {
 		System.out.print("Please write the name of the game you would like to open: ");
 		String gameToOpen = sc.nextLine();
 
-		this.validMoves = readMovesFromFile(gameToOpen);
-		for (int i = 0; i < validMoves.size(); i++) {
-			String move = validMoves.get(i).toString();
+		ArrayList<String> savedMoves = readMovesFromFile(gameToOpen);
+		for (int i = 0; i < savedMoves.size(); i++) {
+			String move = savedMoves.get(i).toString();
 			handleMove(move);
 		}
 		play();
 	}
 
 	private ArrayList<String> readMovesFromFile(String nameOfSavedGame) {
-
+		
 		ArrayList<String> result = new ArrayList<>();
-
-		try (Scanner s = new Scanner(new FileReader(nameOfSavedGame + ".txt"))) {
-			while (s.hasNext()) {
-				result.add(s.nextLine());
+		
+        Scanner scanner;
+		try {
+			scanner = new Scanner(new File("C:\\Users\\Ioanna\\Desktop\\Chess\\"+nameOfSavedGame+".txt"));
+			
+			while (scanner.hasNextLine()) {
+				result.add(scanner.nextLine());
 			}
-
-		} catch (IOException e) {
-			System.out.println("An error occurred.");
-			// e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println("There is no saved game with this name. You can continue playing the current game.");
+			//e.printStackTrace();
 		}
-		// System.out.println(result);
+
+
 		return result;
 	}
 
@@ -242,10 +247,11 @@ public class Game {
 			System.out.println("Bye!");
 			return true;
 		} else if (answer.toLowerCase().equals("no")) {
-			System.out.println("");
+			board.printTheBoard();
 			return false;
 		} else {
 			System.out.println("You typed neither yes, nor no. You can keep playing.\n");
+			board.printTheBoard();
 			return false;
 		}
 	}

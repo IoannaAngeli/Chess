@@ -49,4 +49,8 @@ public abstract class Piece {
 		return color.equals(Color.BLACK) ? symbol.toLowerCase() : symbol;
 	}
 
+	public String toStringType() {
+		return "Piece ";
+	};
+
 }

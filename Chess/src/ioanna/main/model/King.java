@@ -22,11 +22,16 @@ public class King extends Piece {
 	@Override
 	public boolean isValidMove(Location locTo) {
 
-		if (locTo.getCol() == location.getCol() && (locTo.getRow() == 1 + location.getRow())) {
+		if (location.isVerticalTo(locTo)
+				&& ((locTo.getRow() == 1 + location.getRow()) || (locTo.getRow() == location.getRow() - 1))) {
 			return true;
-		} else if (locTo.getCol() == location.getCol() && locTo.getRow() == location.getRow() - 1) {
+		} else if (location.isHorizontalTo(locTo)
+				&& (locTo.getCol() == 1 + location.getCol() || locTo.getCol() == location.getCol() - 1)) {
 			return true;
-		} else if (locTo.getRow() == location.getRow()
+		} else if (location.isAntiDiagonalTo(locTo)
+				&& (locTo.getCol() == 1 + location.getCol() || locTo.getCol() == location.getCol() - 1)) {
+			return true;
+		} else if (location.isDiagonalTo(locTo)
 				&& (locTo.getCol() == 1 + location.getCol() || locTo.getCol() == location.getCol() - 1)) {
 			return true;
 		} else {
@@ -34,6 +39,7 @@ public class King extends Piece {
 		}
 	}
 
+	@Override
 	public String toStringType() {
 		return "King ";
 	}

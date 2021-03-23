@@ -35,6 +35,7 @@ public class Queen extends Piece {
 		}
 	}
 
+	@Override
 	public String toStringType() {
 		return "Queen ";
 	}

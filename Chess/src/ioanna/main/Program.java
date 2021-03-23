@@ -9,6 +9,7 @@ public class Program {
 		Board board = new Board();
 		board.init();
 		Game game = new Game(board);
+		System.out.println("\nHello!\n");
 		game.play();
 
 	}

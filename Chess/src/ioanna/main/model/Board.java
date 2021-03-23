@@ -51,8 +51,8 @@ public class Board {
 		new Knight(Color.WHITE, locations[7][6], this);
 		new Bishop(Color.WHITE, locations[7][2], this);
 		new Bishop(Color.WHITE, locations[7][5], this);
-		new Queen(Color.WHITE, locations[7][4], this);
-		new King(Color.WHITE, locations[7][3], this);
+		new Queen(Color.WHITE, locations[7][3], this);
+		new King(Color.WHITE, locations[7][4], this);
 		for (int i = 0; i < 8; i++) {
 			new Pawn(Color.WHITE, locations[6][i], this);
 		}
@@ -130,7 +130,7 @@ public class Board {
 			whiteCaptured.add(captured);
 		}
 		
-		System.out.println(captured.toString() + "was captured.");
+		System.out.println(" ! ! ! " +captured.toStringType() + "was captured.");
 		if (captured.symbol.equals("K")) {
 			
 			if (captured.color == Color.BLACK) {
@@ -158,16 +158,17 @@ public class Board {
 	 * @param from
 	 * @param to
 	 * @return
+	 * @throws InvalidMoveException 
 	 */
 
-	public boolean freeHorizontalPath(Location from, Location to) {
+	public boolean freeHorizontalPath(Location from, Location to) throws InvalidMoveException {
 		// constant row- increasing column
 		if (from.getCol() < to.getCol()) {
 			for (int i = from.getCol() + 1; i < to.getCol(); i++) {
 				if (locations[from.getRow()][i].getPiece() == null) {
 					continue;
 				} else {
-					return false;
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
 				}
 			}
 		}
@@ -177,7 +178,7 @@ public class Board {
 				if (locations[from.getRow()][i].getPiece() == null) {
 					continue;
 				} else {
-					return false;
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
 				}
 			}
 
@@ -201,18 +202,20 @@ public class Board {
 
 	public boolean freeVerticalPath(Location from, Location to) throws InvalidMoveException {
 		if (from.getRow() < to.getRow()) {
-			for (int i = from.getCol() + 1; i < to.getCol(); i++) {
+			for (int i = from.getRow() + 1; i < to.getRow(); i++) {
 				if (locations[i][from.getCol()].getPiece() == null) {
 					continue;
 				} else {
+					
 					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
 				}
 			}
-		} else if (from.getCol() > to.getCol())
-			for (int i = to.getCol() + 1; i < from.getCol(); i++) {
+		} else if (from.getRow() > to.getRow())
+			for (int i = to.getRow() + 1; i < from.getRow(); i++) {
 				if (locations[i][from.getCol()].getPiece() == null) {
 					continue;
 				} else {
+					System.out.println("B");
 					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
 				}
 			}
@@ -238,20 +241,38 @@ public class Board {
 
 	public boolean freeDiagonalPath(Location from, Location to) throws InvalidMoveException {
 
-		int row = from.getRow() - 1;
-		int col = from.getCol() + 1;
+		if (from.getCol() < to.getCol()) {
 
-		while (col < to.getCol()) {
+			int row = from.getRow() - 1;
+			int col = from.getCol() + 1;
 
-			if (locations[row][col] == null) {
-				row++;
-				col++;
-				continue;
-			} else {
-				throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
-			}
+			while (col < to.getCol()) {
+
+				if (locations[row][col].getPiece() == null) {
+					row--;
+					col++;
+					continue;
+				} else {
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
+				}
+				
+			} return true;
+		} else {
+			int row = from.getRow() + 1;
+			int col = from.getCol() - 1;
+
+			while (col > to.getCol()) {
+
+				if (locations[row][col].getPiece() == null) {
+					row++;
+					col--;
+					continue;
+				} else {
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
+				}
+			}return true;
+
 		}
-		return true;
 	}
 
 	/**
@@ -270,20 +291,38 @@ public class Board {
 	 */
 
 	public boolean freeAntidiagonalPath(Location from, Location to) throws InvalidMoveException {
-		int row = from.getRow() + 1;
-		int col = from.getCol() + 1;
+		if (from.getCol() < to.getCol()) {
 
-		while (row < to.getRow()) {
+			int row = from.getRow() + 1;
+			int col = from.getCol() + 1;
 
-			if (locations[row][col] == null) {
-				row++;
-				col++;
-				continue;
-			} else {
-				throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
-			}
+			while (col < to.getCol()) {
+
+				if (locations[row][col].getPiece() == null) {
+					row++;
+					col++;
+					continue;
+				} else {
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
+				}
+				
+			} return true;
+		} else {
+			int row = from.getRow() - 1;
+			int col = from.getCol() - 1;
+
+			while (col > to.getCol()) {
+
+				if (locations[row][col].getPiece() == null) {
+					row--;
+					col--;
+					continue;
+				} else {
+					throw new InvalidMoveException(InvalidMoveException.OBSTACLE);
+				}
+			}return true;
+
 		}
-		return true;
 	}
 
 	/**
