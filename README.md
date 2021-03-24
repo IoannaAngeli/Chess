@@ -6,7 +6,7 @@ functionality (Save and load game, user help).
 ![image](https://user-images.githubusercontent.com/58227282/112208677-4a1a9e80-8c21-11eb-86d7-6e1972721ca4.png)
 
 
-Find below a prsentation of the chess game on YouTube.
+Find below a presentation of the chess game on YouTube.
 https://www.youtube.com/watch?v=bv7WIadsmmQ&ab_channel=IoannaAngeli
 
 If you download this code, in order to save and open games, you should change 
